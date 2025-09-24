@@ -14,7 +14,7 @@ class JobApply extends Component
     use WithFileUploads;
 
     public $showModal = false;
-    public ?Job $job = null;
+    public $job = null;
 
     // Personal Information
     #[Validate('required|string|max:255')]
@@ -60,6 +60,18 @@ class JobApply extends Component
         $this->job = Job::find($jobId);
         $this->showModal = true;
         $this->resetForm();
+    }
+
+    public function dehydrate()
+    {
+        $this->job = $this->job?->toArray();
+    }
+
+    public function hydrate()
+    {
+        if (is_array($this->job)) {
+            $this->job = new Job($this->job);
+        }
     }
 
     public function submitApplication()

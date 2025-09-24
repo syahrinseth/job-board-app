@@ -86,4 +86,7 @@
             </div>
         @endforelse
     </div>
+    <livewire:job-edit />
+    <livewire:job-view />
+    <livewire:job-apply />
 </div>

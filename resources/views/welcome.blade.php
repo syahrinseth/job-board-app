@@ -49,9 +49,6 @@
                 {{-- <livewire:hello-world /> --}}
                 <livewire:job-create />
                 <livewire:job-list class="lg:ml-8 lg:w-1/2" />
-                <livewire:job-edit />
-                <livewire:job-view />
-                <livewire:job-apply />
             </main>
         </div>
 
