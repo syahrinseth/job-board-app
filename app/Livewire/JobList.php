@@ -9,9 +9,9 @@ use Livewire\Attributes\On;
 
 class JobList extends Component
 {
-    public $jobs;
     public $currentSearch = '';
     public $log = [];
+    public $perPage = 5;
 
     #[On('jobCreated')]
     public function handleJobCreated($jobId)
@@ -71,20 +71,27 @@ class JobList extends Component
     protected function refreshJobs()
     {
         if (empty($this->currentSearch)) {
-            $this->jobs = Job::latest()->get()->toArray();
-            $this->log[] = 'Jobs refreshed at ' . now()->format('H:i:s.u') . ' - Count: ' . count($this->jobs);
+            return Job::latest()->paginate($this->perPage);
         } else {
-            $this->jobs = Job::where('title', 'like', '%' . $this->currentSearch . '%')
+            return Job::where('title', 'like', '%' . $this->currentSearch . '%')
                 ->orWhere('company', 'like', '%' . $this->currentSearch . '%')
                 ->orWhere('location', 'like', '%' . $this->currentSearch . '%')
                 ->latest()
-                ->get()->toArray();
-            $this->log[] = 'Search Jobs refreshed at ' . now()->format('H:i:s.u') . ' - Count: ' . count($this->jobs);
+                ->paginate($this->perPage);
         }
+    }
+
+    #[On('loadMore')]
+    public function loadMore()
+    {
+        $this->perPage += 5;
     }
 
     public function render()
     {
-        return view('livewire.job-list');
+        $jobs = $this->refreshJobs();
+        return view('livewire.job-list', [
+            'jobs' => $jobs,
+        ]);
     }
 }
