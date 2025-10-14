@@ -21,6 +21,7 @@ class JobFactory extends Factory
             'company' => $this->faker->company(),
             'location' => $this->faker->city(),
             'description' => $this->faker->paragraph(),
+            'owner_id' => \App\Models\User::factory(),
         ];
     }
 }

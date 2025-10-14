@@ -137,7 +137,7 @@
             <h3 class="text-lg leading-6 font-medium text-gray-900 dark:text-white mb-4">Recent Jobs</h3>
             <div class="flow-root">
                 <ul class="-my-5 divide-y divide-gray-200 dark:divide-gray-700">
-                    @forelse(App\Models\Job::latest()->take(5)->get() as $job)
+                    @forelse(App\Models\Job::with('owner')->latest()->take(5)->get() as $job)
                         <li class="py-4">
                             <div class="flex items-center space-x-4">
                                 <div class="flex-1 min-w-0">
@@ -146,6 +146,9 @@
                                     </p>
                                     <p class="text-sm text-gray-500 dark:text-gray-400 truncate">
                                         {{ $job->company }} • {{ $job->location }}
+                                        @if($job->owner)
+                                            • Posted by {{ $job->owner->name }}
+                                        @endif
                                     </p>
                                 </div>
                                 <div class="text-sm text-gray-500 dark:text-gray-400">

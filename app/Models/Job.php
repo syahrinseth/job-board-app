@@ -16,10 +16,16 @@ class Job extends Model
         'company',
         'location',
         'description',
+        'owner_id',
     ];
 
     public function applications()
     {
         return $this->hasMany(JobApplication::class);
+    }
+
+    public function owner()
+    {
+        return $this->belongsTo(User::class, 'owner_id');
     }
 }

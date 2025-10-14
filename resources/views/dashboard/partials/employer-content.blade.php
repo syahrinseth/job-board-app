@@ -14,7 +14,7 @@
                 <div class="ml-5 w-0 flex-1">
                     <dl>
                         <dt class="text-sm font-medium text-gray-500 dark:text-gray-400 truncate">My Jobs</dt>
-                        <dd class="text-lg font-medium text-gray-900 dark:text-white">{{ App\Models\Job::count() }}</dd>
+                        <dd class="text-lg font-medium text-gray-900 dark:text-white">{{ Auth::user()->jobs()->count() }}</dd>
                     </dl>
                 </div>
             </div>
@@ -35,7 +35,7 @@
                 <div class="ml-5 w-0 flex-1">
                     <dl>
                         <dt class="text-sm font-medium text-gray-500 dark:text-gray-400 truncate">Applications Received</dt>
-                        <dd class="text-lg font-medium text-gray-900 dark:text-white">{{ App\Models\JobApplication::count() }}</dd>
+                        <dd class="text-lg font-medium text-gray-900 dark:text-white">{{ Auth::user()->jobs()->withCount('applications')->get()->sum('applications_count') }}</dd>
                     </dl>
                 </div>
             </div>
@@ -56,7 +56,7 @@
                 <div class="ml-5 w-0 flex-1">
                     <dl>
                         <dt class="text-sm font-medium text-gray-500 dark:text-gray-400 truncate">Jobs with Applications</dt>
-                        <dd class="text-lg font-medium text-gray-900 dark:text-white">{{ App\Models\Job::has('applications')->count() }}</dd>
+                        <dd class="text-lg font-medium text-gray-900 dark:text-white">{{ Auth::user()->jobs()->has('applications')->count() }}</dd>
                     </dl>
                 </div>
             </div>
@@ -77,7 +77,7 @@
                 <div class="ml-5 w-0 flex-1">
                     <dl>
                         <dt class="text-sm font-medium text-gray-500 dark:text-gray-400 truncate">This Month</dt>
-                        <dd class="text-lg font-medium text-gray-900 dark:text-white">{{ App\Models\Job::whereMonth('created_at', now()->month)->count() }}</dd>
+                        <dd class="text-lg font-medium text-gray-900 dark:text-white">{{ Auth::user()->jobs()->whereMonth('created_at', now()->month)->count() }}</dd>
                     </dl>
                 </div>
             </div>
@@ -96,7 +96,7 @@
             </div>
             <div class="flow-root">
                 <ul class="-my-5 divide-y divide-gray-200 dark:divide-gray-700">
-                    @forelse(App\Models\Job::latest()->take(5)->get() as $job)
+                    @forelse(Auth::user()->jobs()->latest()->take(5)->get() as $job)
                         <li class="py-4">
                             <div class="flex items-center space-x-4">
                                 <div class="flex-1 min-w-0">
@@ -135,7 +135,7 @@
             </div>
             <div class="flow-root">
                 <ul class="-my-5 divide-y divide-gray-200 dark:divide-gray-700">
-                    @forelse(App\Models\JobApplication::with('job')->latest()->take(5)->get() as $application)
+                    @forelse(App\Models\JobApplication::with('job')->whereHas('job', function($query) { $query->where('owner_id', Auth::id()); })->latest()->take(5)->get() as $application)
                         <li class="py-4">
                             <div class="flex items-center space-x-4">
                                 <div class="flex-shrink-0">
