@@ -1,9 +1,8 @@
 <?php
 
-use App\Models\Job;
+use App\Livewire\JobCreate;
 use App\Models\User;
 use Livewire\Livewire;
-use App\Livewire\JobCreate;
 
 test('job creation page can be rendered by employers', function () {
     $employer = User::factory()->create(['role' => 'employer']);
@@ -11,7 +10,7 @@ test('job creation page can be rendered by employers', function () {
     $response = $this->actingAs($employer)->get('/job/create');
 
     $response->assertStatus(200)
-        ->assertSee('Post New Job')
+        ->assertSee('Create New Job')
         ->assertSee('Job Title')
         ->assertSee('Company')
         ->assertSee('Location');
@@ -23,7 +22,7 @@ test('job creation page can be rendered by admins', function () {
     $response = $this->actingAs($admin)->get('/job/create');
 
     $response->assertStatus(200)
-        ->assertSee('Post New Job');
+        ->assertSee('Create New Job');
 });
 
 test('job creation page is forbidden for guests', function () {

@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\JobController;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Request;
 use Illuminate\Support\Facades\Route;
@@ -16,7 +17,7 @@ Route::view('profile', 'profile')
     ->name('profile');
 
 // Job Management Routes
-Route::get('/job/create', \App\Livewire\JobCreate::class)
+Route::get('/job/create', [JobController::class, 'create'])
     ->middleware(['auth'])
     ->name('job.create');
 
