@@ -1,6 +1,6 @@
-<div class="w-full mb-5">
+<div class="w-full">
     <!-- Search Input Section -->
-    <div class="bg-white dark:bg-gray-800 rounded-lg shadow-md p-6 mb-6">
+    <div class="bg-white dark:bg-gray-800 p-6">
         <div class="relative">
             <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
                 <svg class="w-5 h-5 text-gray-400 dark:text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -26,7 +26,7 @@
         @endif
     </div>
 
-    @if (config('app.debug'))
+    @if (config('app.debug') && false)
         <!-- Component Lifecycle Logs (Debug Mode Only) -->
         <div class="mt-4 bg-gray-50 dark:bg-gray-900 rounded-lg p-4 border border-gray-200 dark:border-gray-700">
             <h3 class="text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">Search Component Lifecycle Log:</h3>

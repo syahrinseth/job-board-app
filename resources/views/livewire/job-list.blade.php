@@ -9,8 +9,6 @@
         }
     }"
     x-init="init" class="w-full px-4 sm:px-6 lg:px-8">
-    {{-- Job Search Component --}}
-    <livewire:job-search />
 
     <!-- Job Cards -->
     <div class="space-y-4">
