@@ -15,6 +15,11 @@ Route::view('profile', 'profile')
     ->middleware(['auth'])
     ->name('profile');
 
+// Job Management Routes
+Route::get('/job/create', \App\Livewire\JobCreate::class)
+    ->middleware(['auth'])
+    ->name('job.create');
+
 Route::get('/checkout', function () {
     $stripePriceId = 'price_1SI91MR5jYwBOkncduNjVoXN'; // Replace with your actual price ID from Stripe
     $quantity = 1; // You can adjust the quantity as needed

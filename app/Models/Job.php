@@ -16,6 +16,10 @@ class Job extends Model
         'company',
         'location',
         'description',
+        'requirements',
+        'salary_range',
+        'job_type',
+        'work_type',
         'owner_id',
     ];
 
