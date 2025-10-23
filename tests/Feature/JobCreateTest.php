@@ -48,7 +48,7 @@ test('employers can create jobs with valid data', function () {
         ->set('work_type', 'remote')
         ->call('save')
         ->assertHasNoErrors()
-        ->assertRedirect('/dashboard');
+        ->assertDispatched('redirect-to-checkout');
 
     $this->assertDatabaseHas('job_lists', [
         'title' => 'Senior Software Engineer',

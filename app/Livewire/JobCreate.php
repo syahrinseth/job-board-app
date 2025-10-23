@@ -59,8 +59,8 @@ class JobCreate extends Component
             'requirements', 'salary_range', 'job_type', 'work_type',
         ]);
 
-        // Redirect to job list or dashboard
-        return $this->redirect('/dashboard', navigate: true);
+        // Dispatch event to trigger redirect to checkout
+        $this->dispatch('redirect-to-checkout', jobId: $job->id);
     }
 
     public function resetForm()

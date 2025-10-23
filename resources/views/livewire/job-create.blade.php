@@ -1,5 +1,21 @@
-<div>
+<div
+    x-data="{
+        showSuccess: false,
+        redirectToCheckout(jobId) {
+            console.log('Redirect function called with jobId:', jobId);
+            window.location.href = '/checkout?job_id=' + jobId;
+        }
+    }"
+    @redirect-to-checkout.window="console.log('Event received:', $event.detail); redirectToCheckout($event.detail.jobId)"
+>
     <!-- Success Message -->
+    @if($success_message)
+        <div x-show="showSuccess" x-init="showSuccess = true; setTimeout(() => showSuccess = false, 3000)"
+             class="mb-6 bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded relative" role="alert">
+            <span class="block sm:inline">{{ $success_message }}</span>
+        </div>
+    @endif
+
     @if (session()->has('message'))
         <div class="mb-6 bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded relative" role="alert">
             <span class="block sm:inline">{{ session('message') }}</span>
