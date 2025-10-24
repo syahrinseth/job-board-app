@@ -35,7 +35,10 @@ Route::get('/checkout', function () {
     return request()->user()->checkout([$stripePriceId => $quantity], [
         'success_url' => route('checkout.success').'?session_id={CHECKOUT_SESSION_ID}',
         'cancel_url' => route('checkout.cancel'),
-        'metadata' => ['order_id' => auth()->id().'_'.time(), 'job_id' => $jobId],
+        'metadata' => [
+            'order_id' => auth()->id().'_'.time(),
+            'job_id' => $jobId
+        ],
     ]);
 })->middleware(['auth'])->name('checkout');
 
@@ -44,8 +47,8 @@ Route::get('/checkout/success', function () {
     $session = Cashier::stripe()->checkout->sessions->retrieve($sessionId);
     if ($session->payment_status === 'paid') {
         // Payment was successful, you can perform post-payment actions here
-        // $jobId = $session->metadata->job_id;
-        // Job::where('id', $jobId)->update(['status' => "Active"]);
+        $jobId = $session->metadata->job_id;
+        Job::where('id', $jobId)->update(['status' => "Active"]);
     } else {
         // Payment was not successful, handle accordingly
     }
@@ -80,5 +83,9 @@ Route::post('/stripe/webhook', function (Request $request) {
 
     return response()->json(['status' => 'success']);
 })->name('stripe.webhook');
+
+Route::get('/ai-test', function () {
+    return view('ai-test');
+})->middleware(['auth'])->name('ai.test');
 
 require __DIR__.'/auth.php';
