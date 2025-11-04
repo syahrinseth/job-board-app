@@ -4,6 +4,7 @@ namespace App\Livewire;
 
 use App\Models\Job;
 use Illuminate\Support\Facades\Auth;
+use Livewire\Attributes\On;
 use Livewire\Attributes\Validate;
 use Livewire\Component;
 
@@ -70,6 +71,14 @@ class JobCreate extends Component
             'requirements', 'salary_range', 'job_type', 'work_type',
         ]);
         $this->resetValidation();
+    }
+
+    #[On('ai-response-selected')]
+    public function setAiResponse(string $response): void
+    {
+        // Convert AI response to HTML format
+        // $htmlResponse = $this->convertTextToHtml($response);
+        $this->description = $response;
     }
 
     public function render()

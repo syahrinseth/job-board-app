@@ -39,4 +39,38 @@ class DeepseekService
 
         return $data['choices'][0]['message']['content'] ?? 'No response generated';
     }
+
+    public function generateCoverLetter($prompt)
+    {
+        $response = Http::timeout(120)
+            ->connectTimeout(30)
+            ->withHeaders([
+                'Authorization' => 'Bearer ' . config('services.deepseek.key'),
+                'Content-Type' => 'application/json',
+            ])
+            ->post(
+                config('services.deepseek.base_url') . '/chat/completions',
+                [
+                    'model' => 'deepseek-chat',
+                    'messages' => [
+                        [
+                            'role' => 'system',
+                            'content' => 'You are an AI that writes professional cover letters.',
+                        ],
+                        [
+                            'role' => 'user',
+                            'content' => $prompt,
+                        ],
+                    ],
+                ]
+            );
+
+        if ($response->failed()) {
+            throw new \Exception('Deepseek API request failed: ' . $response->body());
+        }
+
+        $data = $response->json();
+
+        return $data['choices'][0]['message']['content'] ?? 'No response generated';
+    }
 }

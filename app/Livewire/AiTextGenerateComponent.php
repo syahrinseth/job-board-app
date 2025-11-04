@@ -40,6 +40,20 @@ class AiTextGenerateComponent extends Component
         }
     }
 
+    public function useResponse(): void
+    {
+        if ($this->currentPrompt && $this->currentPrompt->status === 'Completed') {
+            // Dispatch event to parent component with the AI response
+            $this->dispatch('ai-response-selected', response: $this->currentPrompt->getFormattedResponse());
+
+            // Close the modal
+            $this->dispatch('close-ai-modal');
+
+            // Show success message
+            session()->flash('success', 'AI response has been added to the job description!');
+        }
+    }
+
     public function render()
     {
         return view('livewire.ai-text-generate-component');
